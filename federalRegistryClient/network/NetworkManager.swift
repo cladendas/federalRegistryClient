@@ -36,7 +36,8 @@ final class NetworkManager {
         return request
     }
     
-    static func performSearchObject(complition: @escaping (_ repositories: [Object]) -> ()) {
+    ///выполнение запроса по поиску объектов в Рееестр
+    static func performSearchObject(complition: @escaping (_ objects: [Object]) -> ()) {
         
         var tmpObjects: [Object] = []
         
@@ -84,6 +85,38 @@ final class NetworkManager {
             }
         }
         
-        dataTask.resume() 
+        dataTask.resume()
+    }
+    
+    ///создание запроса в ФССП по физлицам
+    private static func requestFSSP(region: String, firstname: String, lastname: String, token: String) -> URLRequest? {
+        
+//        https://api-ip.fssp.gov.ru/api/v1.0/search/physical?region=66&lastname=Иванов&firstname=Иван&token=94syEB56qRtu
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "api-ip.fssp.gov.ru"
+        urlComponents.path = "/api/v1.0/search/physical"
+        
+        urlComponents.queryItems = [
+            URLQueryItem(name: "region", value: region),
+            URLQueryItem(name: "firstname", value: firstname),
+            URLQueryItem(name: "lastname", value: lastname),
+            URLQueryItem(name: "token", value: token)
+        ]
+        
+        guard let url = urlComponents.url else { return nil }
+        
+        let request = URLRequest(url: url)
+        
+//        request.allHTTPHeaderFields = deafaultHeader
+        
+        return request
+    }
+    
+    ///выполнение запроса по поиску физлиц в ФССП
+    static func performSearchFSSP(region: String, firstname: String, lastname: String, token: String, complition: @escaping (_ objects: [Object]) -> ()) {
+        
+        
+        
     }
 }
