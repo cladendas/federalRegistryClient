@@ -1,33 +1,27 @@
 //
-//  ResultSearchViewController.swift
+//  ResultFSSPSearchViewController.swift
 //  federalRegistryClient
 //
-//  Created by cladendas on 22.06.2021.
+//  Created by cladendas on 24.06.2021.
 //
 
 import UIKit
 
-class ResultObjectSearchViewController: UIViewController {
+class ResultFSSPSearchViewController: UIViewController {
     
     @IBOutlet weak var headLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
-    var tmpHeadLabel = ""
-    var objects: [Object] = []
-    
-    
+    var objects: [ResultResult] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        headLabel.text = "Объекты по номеру \(tmpHeadLabel)"
-        
+
         tableView.delegate = self
         tableView.dataSource = self
-
-        // Do any additional setup after loading the view.
     }
     
+
     /*
     // MARK: - Navigation
 

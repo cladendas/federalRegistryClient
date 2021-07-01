@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class RegistryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var title: UILabel!
 

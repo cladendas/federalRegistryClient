@@ -7,6 +7,7 @@
 
 import Foundation
 
+/*
 struct ObjectFSSP: Codable {
     private(set) var status: String
     private(set) var code: Int
@@ -33,6 +34,13 @@ struct ResponseObjectFSSP: Codable {
     private(set) var taskStart, taskEnd: String
     private(set) var result: ResponseResult?
     
+    enum CodingKeys: String, CodingKey {
+            case status
+            case taskStart = "task_start"
+            case taskEnd = "task_end"
+            case result
+    }
+    
     init?(json: Dictionary <String, Any>) {
         guard
             let status = json["status"] as? Int,
@@ -50,7 +58,7 @@ struct ResponseObjectFSSP: Codable {
 
 struct ResponseResult: Codable {
     private(set) var status: Int
-    private(set) var result: ResultResult?
+    private(set) var result: [ResultResult?]
     
     init?(json: Dictionary <String, Any>) {
         guard
@@ -59,20 +67,21 @@ struct ResponseResult: Codable {
         else { return nil }
 
         self.status = status
-        self.result = ResultResult(json: result)
+//        self.result = ResultResult(json: result)
+        self.result = []
     }
 }
 
 ///все найденные физ лица
 struct ResultResult: Codable {
+    
     private(set) var name, exeProduction, details, subject: String
-    private(set) var department, bailiff, ipEnd: String
+    private(set) var department, bailiff: String
 
     enum CodingKeys: String, CodingKey {
         case name
         case exeProduction = "exe_production"
         case details, subject, department, bailiff
-        case ipEnd = "ip_end"
     }
     
     init?(json: Dictionary <String, Any>) {
@@ -82,8 +91,7 @@ struct ResultResult: Codable {
             let details = json["details"] as? String,
             let subject = json["subject"] as? String,
             let department = json["department"] as? String,
-            let bailiff = json["bailiff"] as? String,
-            let ipEnd = json["ipEnd"] as? String
+            let bailiff = json["bailiff"] as? String
         else { return nil }
         
         self.name = name
@@ -92,9 +100,9 @@ struct ResultResult: Codable {
         self.subject = subject
         self.department = department
         self.bailiff = bailiff
-        self.ipEnd = ipEnd
     }
 }
+*/
 
 /*
 "result": [
@@ -109,3 +117,49 @@ struct ResultResult: Codable {
                     },
 **/
 
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let weather = try? newJSONDecoder().decode(Weather.self, from: jsonData)
+
+
+
+struct ObjectFSSP: Codable {
+    let response: ResponseObjectFSSP
+}
+
+// MARK: - Response
+struct ResponseObjectFSSP: Codable {
+    let result: [ResponseResult]
+}
+
+// MARK: - ResponseResult
+struct ResponseResult: Codable {
+    let status: Int
+    let query: Query
+//    let result: [ResultResult]
+}
+
+// MARK: - Query
+struct Query: Codable {
+    let type: Int
+    let params: Params
+}
+
+// MARK: - Params
+struct Params: Codable {
+    let region, firstname, lastname: String
+}
+
+// MARK: - ResultResult
+struct ResultResult: Codable {
+    let name, exeProduction, details, subject: String
+    let department, bailiff, ipEnd: String
+
+    enum CodingKeys: String, CodingKey {
+        case name
+        case exeProduction = "exe_production"
+        case details, subject, department, bailiff
+        case ipEnd = "ip_end"
+    }
+}

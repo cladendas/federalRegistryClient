@@ -44,16 +44,51 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func fsspSearchButton(_ sender: UIButton)  {
+        
+        var sss = ""
         let tmpVC = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(identifier: String(describing: ResultFSSPSearchViewController.self)) as ResultFSSPSearchViewController
         
-        self.navigationController?.pushViewController(tmpVC, animated: true)
+        if
+            let region = enterRegion.text,
+            let firstname = enterFirstName.text,
+            let lastname = enterLastName.text,
+            let token = enterTokenFSSP.text {
+            
+
+            NetworkManager.performSearchFSSP(region: region, firstname: firstname, lastname: lastname, token: token) { objectFSSP,task  in
+                
+//                tmpVC.objects = objectFSSP
+                sss = task
+                
+                NetworkManager.performSearchFSSPTask(sss) { objects in
+                    
+                    print("sss", sss)
+                    print("count 0", objects.count)
+                    
+                    tmpVC.objects = objects
+                    
+                    
+                    DispatchQueue.main.async {
+                        self.navigationController?.pushViewController(tmpVC, animated: true)
+                        
+                        print("count 1", objects.count)
+                    }
+                }
+            }
+        }
+        
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         enterObjectNum.text = "2:56:30302:639"
-        // Do any additional setup after loading the view.
+        
+        enterRegion.text = "23"
+        enterFirstName.text = "Артем"
+        enterLastName.text = "Макаров"
+        enterTokenFSSP.text = "DEfb4g87"
+        
     }
 
 
